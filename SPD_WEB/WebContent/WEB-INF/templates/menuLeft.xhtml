@@ -1,0 +1,35 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<h:form id="leftForm">
+		  <p:growl id="growl" showDetail="true" showSummary="true" autoUpdate="true" />
+		<!-- <p:messages id="messages" showDetail="true" closable="true" autoUpdate="true"/> -->
+		 <p:poll interval="20" listener="#{userMB.checkNewMessage}" update=":leftForm:menuId"/>
+		<p:menu id="menuId" toggleable="true" >
+			<p:submenu label="Навигация">
+            	<p:menuitem value="На главную" outcome="/pages/index.xhtml" icon="ui-icon-home"/><!--  url="http://www.primefaces.org" -->
+            	<p:menuitem value="Архив документов" icon="ui-icon-star"/>
+        	</p:submenu>
+        	<p:submenu label="Документ">
+        		<p:menuitem value="Неотработанные" actionListener="#{userMB.openMainDoc}" icon="fa fa-align-justify" />
+        		<p:menuitem value="#{userMB.incomMsg}" actionListener="#{userMB.openIncomingDoc}" icon="fa fa-arrow-right" />
+        		<p:menuitem value="Отправленные" actionListener="#{userMB.openSendDoc}" icon="fa fa-arrow-left" />
+        		<p:menuitem value="Прочие" actionListener="#{userMB.openOtherDoc}" icon="fa fa-align-justify" />
+        		<p:menuitem value="#{userMB.otkazMsg}" actionListener="#{userMB.openOtkazDoc}" icon="fa fa-thumbs-o-down" />
+        		
+            	<p:menuitem value="Создать" outcome="/pages/newDoc.xhtml" icon="fa fa-file-pdf-o" />
+            	<p:menuitem value="Загрузить" outcome="/pages/fileUpload.xhtml" icon="fa fa-cloud-upload"/>
+            	<!-- <p:menuitem value="Сохранить" onclick="PF('editorWidget').saveHTML();" icon="ui-icon-disk" /> -->
+            	<!-- <p:menuitem value="Очистить" onclick="PF('editorWidget').clear();" icon="ui-icon-close" /> -->
+        	</p:submenu>
+        	<!-- <p:submenu label="Non-Ajax">
+            	<p:menuitem value="Delete" update="messages" ajax="false" icon="ui-icon-close"/>
+        	</p:submenu> -->
+    	</p:menu>
+		 
+	</h:form>
+
+</ui:composition>

@@ -1,0 +1,28 @@
+<ui:composition 
+	xmlns:p="http://primefaces.org/ui"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">	
+	<h:form>
+		<h:panelGrid columns="3" styleClass="panelGridStyle">
+			<h:graphicImage id="imgBtn" url="#{userMB.user.pic == 1 ? '/resources/img_profile/profile_M.png' : '/resources/img_profile/profile_W.png'}" class="img-profile1" alt=""/>
+			<p:tieredMenu  overlay="true" trigger="imgBtn" my="left top" at="left bottom" styleClass="tiredMenuStyle">
+ 				<!-- <p:submenu label="Настройки" icon="fa fa-user"> -->
+ 				<p:menuitem value="Настройки профиля" icon="fa fa-gears"/>
+ 					<p:separator />
+ 					<p:menuitem value="Редактировать" icon="fa fa-pencil-square" />
+            		<p:menuitem value="Выход" action="#{userMB.logOut()}" icon="fa fa-power-off" />
+        		<!-- </p:submenu> -->
+        		
+			</p:tieredMenu>	
+			
+			<h:panelGrid columns="1">
+				<h:outputText value="#{userMB.name}" styleClass="nameHead"/>
+				<h:outputText value="#{userMB.info}" styleClass="nameHead2"/>
+			</h:panelGrid>
+		</h:panelGrid>
+		
+	</h:form>
+	
+</ui:composition>

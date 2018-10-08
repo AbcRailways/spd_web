@@ -1,0 +1,152 @@
+a {
+    outline: none; /* Убираем границу вокруг ссылок  */
+}
+.ui-widget
+{
+	font-size: 90%;
+	font-family: Arial;
+}
+
+.ui-corner-all {
+	-moz-border-radius: 0px;
+	-webkit-border-radius: 0px;
+	border-radius: 0px;
+}
+
+.ui-layout-north {
+    z-index:20 !important;
+    overflow:visible !important;
+    border: 0px;
+    padding: 0 !important;
+}
+.ui-layout-north .ui-layout-unit-content {
+    overflow:visible !important;
+}
+
+.ui-tree.treeMenuParks {
+	width: auto;
+}
+
+/* .ui-datatable thead th, 
+.ui-datatable tbody td,
+ .ui-datatable tfoot td, 
+ .ui-datatable tfoot th {
+	padding: 2px 10px;
+	overflow: hidden;
+	border-width: 1px;
+	border-style: solid;
+} */
+
+ 
+.ui-datatable tbody td{
+	padding: 2px 10px;
+	overflow: hidden;
+	border-width: 1px;
+	border-style: solid;
+}
+
+/* .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+	font-weight: bold;
+} */
+
+.ui-datatable th {
+    font-weight: bold !important;
+}
+
+.ui-datatable th.ui-state-default {
+	background: #f7ffcc;
+}
+
+.ui-state-highlight a, 
+.ui-widget-content .ui-state-highlight a,
+.ui-widget-header .ui-state-highlight a {
+	color: #FFF;
+	text-decoration: none;
+}
+
+.ui-treenode-label a {
+	text-decoration: none;
+}
+
+.puti-tab .ui-tabs-panel {
+	border-width: 1px;
+	padding: 2px 2px;
+}
+
+/* .ui-tabs .ui-tabs-nav > li.ui-state-default.ui-state-active {
+	background: #186BA0;
+}
+
+.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited {
+	color: #FFF;
+} */
+
+.ui-datatable .ui-datatable-header, .ui-datatable .ui-datatable-footer {
+	text-align: left;
+}
+
+/*.ui-menu, .ui-menu .ui-menu-child {
+	background: #c4c4c4 url("/showcase/javax.faces.resource/images/ui-bg_highlight-hard_80_c4c4c4_1x100.png.xhtml?ln=primefaces-aristo") top repeat-x;
+	background: #c4c4c4 linear-gradient(top,rgba(255,255,255,0.8),rgba(255,255,255,0));
+	background: #c4c4c4 -webkit-gradient(linear,left top,left bottom,from(rgba(255,255,255,0.8)),to(rgba(255,255,255,0)));
+	background: #c4c4c4 -moz-linear-gradient(top,rgba(255,255,255,0.8),rgba(255,255,255,0));
+}
+
+.ui-menubar .ui-menuitem-link {
+	border: solid 1px #A2A2A2;
+	margin-left: 2px;
+}
+*/
+
+
+.ui-menu .ui-menu-parent .ui-menu-child{
+	/*width:26.5em;*/
+}
+
+.ui-menu .ui-menuitem-link{
+	/*width:97%;*/
+}
+
+.blockPoezd {
+	background-color: #fca752 !important;
+	background-image: none !important;
+	color: #000000 !important;
+}
+
+/* logs.xhtml - message column */
+.log-message-size {
+    white-space: nowrap; /* Отменяем перенос текста */
+    overflow: hidden; /* Обрезаем содержимое */
+    padding: 5px; /* Поля */
+    text-overflow: ellipsis; /* Многоточие */
+}
+
+.log-message-size:hover {
+    background: #f0f0f0; /* Цвет фона */
+    white-space: pre-wrap; /* Обычный перенос текста */
+}
+
+.ui-datatable th.ui-state-active {
+    background: #186ba0;
+    color: #fff;
+}
+
+.cmPuti ul.ui-menu-child
+{
+    width: 200px !important;
+}
+
+.topAligned
+{
+	vertical-align: top;
+}
+
+.ui-dialog .ui-dialog-title {
+    float: left;
+    margin: -0.8em 16px -0.9em 0;
+    color: #2399e5;
+}
+
+/* .ui-layout-unit .ui-layout-unit-content {
+    background-color: rgb(206, 234, 245);
+} */

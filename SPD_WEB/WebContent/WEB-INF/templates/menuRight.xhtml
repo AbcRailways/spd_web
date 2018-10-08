@@ -1,0 +1,127 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<h:form id="rightForm">
+	<!-- <p:growl id="growl1" showDetail="true" showSummary="true" autoUpdate="true" /> -->
+	<h:panelGrid id="pnlForm">
+		<h:panelGrid id="pnl" columns="1" rendered="#{userMB.pnl == true ? true : false}" style="text-align: center;margin-top: 250px;">
+			<h:outputLabel value="Здесь будут отображаться ваши документы"/>
+		</h:panelGrid>
+		<h:panelGrid id="pnlDataTable" columns="1">
+		
+			<p:dataTable id="mainTable" var="usr" value="#{userMB.user.mainListDoc}" sortBy="#{usr.mnkdProj}" expandableRowGroups="true"
+					selectionMode="single" selection="#{userMB.selectedMain}" rowKey="#{usr.docId}" style="font-size: 11px;"
+					 emptyMessage="Документы не найдены" rendered="#{userMB.openMainDocs == true ? true : false}" scrollable="true">
+					 <p:ajax event="rowSelect" listener="#{userMB.onRowSelectMain}"/>
+        			<p:headerRow>
+            			<p:column colspan="2" >
+                			<h:outputText value="#{usr.mnkdProj}" />
+            			</p:column>
+        			</p:headerRow>
+        			
+        			<p:column>
+        				<h:panelGrid columns="1">
+        					<h:outputText value="#{usr.nameDoc}" style="font-weight: bold;"/>
+        					<h:outputText value="Дата созд: #{usr.dtCreate}" style="font-weight: bold;">
+            					<f:convertDateTime pattern="dd.MM.yyyy HH:mm" />        
+            				</h:outputText>
+        				</h:panelGrid>
+        			</p:column>
+
+				</p:dataTable>
+				
+				<p:dataTable id="incomingTable" var="usr" value="#{userMB.user.listIncoming}" sortBy="#{usr.mnkdProj}" expandableRowGroups="true"
+					selectionMode="single" selection="#{userMB.selectedIncoming}" rowKey="#{usr.docId}" scrollable="true" style="font-size: 11px;"
+					 emptyMessage="Документы не найдены" rendered="#{userMB.openIncomingDocs == true ? true : false}">
+					 <p:ajax event="rowSelect" listener="#{userMB.onRowSelectIncoming}"/>
+        			<p:headerRow>
+            			<p:column colspan="2" >
+                			<h:outputText value="#{usr.mnkdProj}" />
+            			</p:column>
+        			</p:headerRow>
+        			        			
+        			<p:column>
+        				<h:panelGrid columns="1">
+        					<h:outputText value="#{usr.nameDoc}" styleClass="colorDocRed" rendered="#{usr.readDoc == 0 ? true : false}"/>
+        					<h:outputText value="#{usr.nameDoc}" styleClass="colorDocGreen" rendered="#{usr.readDoc == 1 ? true : false}"/>
+        					<h:outputText value="Дата отпр: #{usr.dtSend}">
+            					<f:convertDateTime pattern="dd.MM.yyyy HH:mm" />        
+            				</h:outputText>
+            				<h:outputText value="От: #{usr.fullName} #{usr.surname}" />
+        				</h:panelGrid>
+        			</p:column>
+
+				</p:dataTable>
+				
+				<p:dataTable id="sendTable" var="usr" value="#{userMB.user.listSend}" sortBy="#{usr.mnkdProj}" expandableRowGroups="true"
+					selectionMode="single" selection="#{userMB.selectedSend}" rowKey="#{usr.docId}" scrollable="true" style="font-size: 11px;"
+					 emptyMessage="Документы не найдены" rendered="#{userMB.openSendDocs == true ? true : false}">
+					 <p:ajax event="rowSelect" listener="#{userMB.onRowSelectSend}" />
+        			<p:headerRow>
+            			<p:column colspan="2" >
+                			<h:outputText value="#{usr.mnkdProj}" />
+            			</p:column>
+        			</p:headerRow>
+        			
+        			<p:column>
+        				<h:panelGrid columns="1">
+        					<h:outputText value="#{usr.nameDoc}" style="font-weight: bold;"/>
+        					<h:outputText value="Дата отпр: #{usr.dtSend}" style="font-weight: bold;">
+            					<f:convertDateTime pattern="dd.MM.yyyy HH:mm" />        
+            				</h:outputText>
+        				</h:panelGrid>
+        			</p:column>
+
+				</p:dataTable> 
+				
+				<p:dataTable id="otherTable" var="usr" value="#{userMB.user.listOther}" sortBy="#{usr.mnkdProj}" expandableRowGroups="true"
+					selectionMode="single" selection="#{userMB.selectedOther}" rowKey="#{usr.docId}" style="font-size: 11px;"
+					 emptyMessage="Документы не найдены" rendered="#{userMB.openOtherDocs == true ? true : false}" scrollable="true">
+					 <p:ajax event="rowSelect" listener="#{userMB.onRowSelectOther}"/>
+        			<p:headerRow>
+            			<p:column colspan="2" >
+                			<h:outputText value="#{usr.mnkdProj}" />
+            			</p:column>
+        			</p:headerRow>
+        			
+        			<p:column>
+        				<h:panelGrid columns="1">
+        					<h:outputText value="#{usr.nameDoc}" style="font-weight: bold;"/>
+        					<h:outputText value="Дата созд: #{usr.dtCreate}" style="font-weight: bold;">
+            					<f:convertDateTime pattern="dd.MM.yyyy HH:mm" />        
+            				</h:outputText>
+        				</h:panelGrid>
+        			</p:column>
+
+				</p:dataTable>
+				
+				<p:dataTable id="otkazTable" var="usr" value="#{userMB.user.listOtkaz}" sortBy="#{usr.mnkdProj}" expandableRowGroups="true"
+					selectionMode="single" selection="#{userMB.selectedOtkazDoc}" rowKey="#{usr.docId}" scrollable="true" style="font-size: 11px;"
+					 emptyMessage="Документы не найдены" rendered="#{userMB.openOtkazDocs == true ? true : false}">
+					 <p:ajax event="rowSelect" listener="#{userMB.onRowSelectOtkaz}" />
+        			<p:headerRow>
+            			<p:column colspan="2" >
+                			<h:outputText value="#{usr.mnkdProj}" />
+            			</p:column>
+        			</p:headerRow>
+        			
+        			<p:column>
+        				<h:panelGrid columns="1">
+        					<h:outputText value="#{usr.nameDoc}" styleClass="colorDocRed" rendered="#{usr.readDoc == 0 ? true : false}"/>
+        					<h:outputText value="#{usr.nameDoc}" styleClass="colorDocGreen" rendered="#{usr.readDoc == 1 ? true : false}"/>
+        					<h:outputText value="Дата отпр: #{usr.dtSend}">
+            					<f:convertDateTime pattern="dd.MM.yyyy HH:mm" />        
+            				</h:outputText>
+            				<h:outputText value="От: #{usr.fullName} #{usr.surname}" />
+        				</h:panelGrid>
+        			</p:column>
+
+				</p:dataTable>
+				
+		</h:panelGrid>
+	</h:panelGrid>
+	</h:form>
+</ui:composition>

@@ -1,0 +1,117 @@
+<ui:composition template="/WEB-INF/templates/template.xhtml"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+	<ui:define name="content">
+	<h:form>
+	<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+		
+		<p:dataTable id="tableDoc" var="editDoc" value="#{mainMB.editSelectedDoc}" editable="true" style="margin-bottom:20px" emptyMessage="Документ не найден">
+        	<f:facet name="header">
+           		Редактировать дополнительную информацию о документе
+        	</f:facet>      		
+      		
+      		<p:ajax event="rowEdit" listener="#{mainMB.editTableSend}" update="tableDoc"/>
+      		
+			<p:column style="width:32px">
+           		<p:rowEditor id="editBtn" />
+           		<p:tooltip for="editBtn" value="Редактировать" position="top"/> 
+       		</p:column>       		     		
+       		
+       		<p:column headerText="Имя документа">
+           		<p:cellEditor>
+               		<f:facet name="output"><h:outputText value="#{editDoc.nameDoc}" /></f:facet>
+               		<f:facet name="input"><p:inputText value="#{editDoc.nameDoc}" style="width:96%"/></f:facet>
+           		</p:cellEditor>
+       		</p:column>
+ 
+       		<p:column headerText="Регистрационный номер">
+           		<p:cellEditor>
+               		<f:facet name="output"><h:outputText value="#{editDoc.regNumber}" /></f:facet>
+               		<f:facet name="input"><p:inputText value="#{editDoc.regNumber}" style="width:96%"/></f:facet>
+           		</p:cellEditor>
+       		</p:column>
+ 
+       		<p:column headerText="Проект">
+           		<p:cellEditor>
+               		<f:facet name="output"><h:outputText value="#{mainMB.mnkdProj}" /></f:facet>
+               		<f:facet name="input">
+               			<p:selectOneMenu value="#{editDoc.idProject}" style="width:86%">
+            				<f:selectItem itemLabel="Укажите проект" itemValue="" />
+            				<f:selectItems value="#{mainMB.userService.user.listUserProject}" var="usr" itemLabel="#{usr.mnkdProj}" itemValue="#{usr.idProject}"/>
+        				</p:selectOneMenu>
+                   		<!-- <h:selectOneMenu value="#{car.brand}" style="width:100%">
+                       		<f:selectItems value="#{dtEditView.brands}" var="man" itemLabel="#{man}" itemValue="#{man}" />
+                   		</h:selectOneMenu> -->
+               		</f:facet>
+           		</p:cellEditor>
+       		</p:column>
+       		
+   		</p:dataTable>
+			
+		<p:panel style="margin-top: 5px;">
+        	<f:facet name="header">
+            	Укажите пользователей для согласования и подписания
+        	</f:facet>
+				 <p:dataTable id="table" var="usr" value="#{mainMB.listUser}" style="max-height: 510px;" editable="true" editMode="cell"
+				 	selection="#{mainMB.selectedUsr}" rowKey="#{usr.userId}" emptyMessage="Пользователи не найдены" scrollable="true" scrollHeight="430" >
+					<f:facet name="header">
+            			Список всех пользователей
+        			</f:facet>
+        			<p:ajax event="rowSelect" listener="#{mainMB.onRowSelect}"/>
+        			
+        			<p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+        			
+       				<p:column filterBy="#{usr.surname}" headerText="Пользователь" style="width: 80%;max-width: 80%;" >
+        				<h:outputText value="#{usr.fullName} #{usr.surname}. Должность: #{usr.position} Отдел: #{usr.department}. Тел: #{usr.nPhone}" />
+        			</p:column>
+ 
+        			<p:column headerText="Действие" sortBy="#{usr.sign}">
+            			<p:cellEditor>
+               				<f:facet name="output"><h:outputText value="#{usr.sign}" /></f:facet>
+               				<f:facet name="input">
+                   				<h:selectOneMenu value="#{usr.sign}" style="width:100%">
+                   					<f:selectItem itemLabel="" itemValue=""/>
+                       				<f:selectItem itemLabel="Согласование" itemValue="Согласование"/>
+                       				<f:selectItem itemLabel="Подписание" itemValue="Подписание"/>
+                       				<f:selectItem itemLabel="Получатель" itemValue="Получатель"/>
+                   				</h:selectOneMenu>
+               				</f:facet>
+           				</p:cellEditor>
+        			</p:column>
+        			
+            	</p:dataTable>
+            	<p:commandButton value="Просмотреть" actionListener="#{mainMB.addUsers}" onclick="PF('dlg2').show();" update="panelDlg" style="margin-top: 5px" icon="fa fa-align-justify"/>			
+        </p:panel>
+        
+        <p:commandButton value="Отправить" actionListener="#{mainMB.send}" style="margin-right: 5px;margin-top: 5px;" icon="fa fa-paper-plane"/>
+        
+        <p:dialog header="Для изменения порядка перетащите строку с пользователем в нужную позицию" widgetVar="dlg2" showEffect="explode" hideEffect="bounce" 
+		closable="false" modal="false" stateful="false" resizable="false" style="max-height: 550px;min-height: 550px;">
+		<h:panelGrid id="panelDlg" columns="1">
+		
+    	  <p:dataTable id="draggableTable" var="usr" value="#{mainMB.listAddUser}" draggableRows="true" selection="#{mainMB.removeUser}" selectionMode="single"
+			 rowKey="#{usr.userId}" emptyMessage="Пользователи не найдены" style="max-width: 578px;max-height: 450px;min-height: 450px;">
+			<f:facet name="header">
+        		Список всех пользователей
+        	</f:facet>      			
+       				<p:column headerText="Пользователь">
+       					<h:panelGrid columns="1">
+        					<h:outputText value="#{usr.fullName} #{usr.surname}. Должность: #{usr.position} Отдел: #{usr.department}. Тел: #{usr.nPhone}" />
+        						<h:outputText id="sign" value="Отправить на: #{usr.sign}" style="font-weight: bold;color: limegreen;"/>
+        				</h:panelGrid>
+        			</p:column>
+        </p:dataTable> 
+        <!-- <p:contextMenu for="draggableTable" widgetVar="cMenu">   
+       		<p:menuitem value="Удалить пользователя" actionListener="#{mainMB.removeUser}" update="draggableTable  table" icon="fa fa-trash"/>  
+   		</p:contextMenu> -->
+    		<p:commandButton value="Готово" type="button" onclick="PF('dlg2').hide();" update="draggableTable table" icon="fa fa-check" /> 
+    	</h:panelGrid>
+	</p:dialog>
+        
+	</h:form>
+	</ui:define>
+</ui:composition>

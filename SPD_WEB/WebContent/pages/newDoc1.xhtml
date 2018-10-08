@@ -1,0 +1,159 @@
+<ui:composition template="/WEB-INF/templates/template.xhtml"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+	<ui:define name="content">
+	<h:form>
+	<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+	<p:wizard showNavBar="false" widgetVar="wiz">
+        <p:tab  id="personal" title="Создание документа" titleStyleClass="styleTitleWiz">
+			<h:panelGrid columns="1" styleClass="gridEditor">
+				<p:editor id="editor" widgetVar="editorWidget" value="#{mainMB.newDoc.textDoc}"/>
+				<!-- <p:textEditor widgetVar="editor1" value="#{mainMB.newDoc.textDoc}" height="555" style="margin-bottom:10px" placeholder="Введите свой текст" /> -->
+				<!-- <h:panelGrid columns="3">
+					<p:commandButton value="Сохранить" actionListener="#{mainMB.saveDoc}" icon="ui-icon-disk" />
+					<p:commandButton value="Очистить" type="button" onclick="PF('editorWidget').clear();" icon="ui-icon-close" />
+					 <p:lightBox>  
+    					<h:outputLink value="#">  
+        					<h:outputText value="Click Here"/>  
+    					</h:outputLink>  
+
+    					<f:facet name="inline">  
+       						<p:media value="/resources/other/encrypted(ru rsa).pdf" player="pdf" width="900px" height="900px">  
+           						<h:outputLink value="/resources/other/encrypted(ru rsa).pdf"></h:outputLink> 
+       						</p:media> 
+    					</f:facet>  
+					</p:lightBox>  
+				</h:panelGrid> -->
+			</h:panelGrid>
+		</p:tab>
+		<p:tab title="Настройки получателей документа" titleStyleClass="styleTitleWiz">
+			<p:panel id="tabUser" header="Укажите пользователей для согласования и подписания">
+				 <p:dataTable id="table" var="usr" value="#{mainMB.listUser}" style="max-height: 570px;" editable="true" editMode="cell"
+				 	selection="#{mainMB.selectedUsr}" rowKey="#{usr.userId}" emptyMessage="Пользователи не найдены" scrollable="true" scrollHeight="490" >
+					<f:facet name="header">
+            			Список всех пользователей
+        			</f:facet>
+        			<p:ajax event="rowSelect" listener="#{mainMB.onRowSelect}"/>
+        			
+        			<p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+        			
+       				<p:column filterBy="#{usr.surname}" headerText="Пользователь" style="width: 80%;max-width: 80%;" >
+        				<h:outputText value="#{usr.fullName} #{usr.surname}. Должность: #{usr.position} Отдел: #{usr.department}. Тел: #{usr.nPhone}" />
+        			</p:column>
+ 
+        			<p:column headerText="Действие" sortBy="#{usr.sign}">
+            			<p:cellEditor>
+               				<f:facet name="output"><h:outputText value="#{usr.sign}" /></f:facet>
+               				<f:facet name="input">
+                   				<h:selectOneMenu value="#{usr.sign}" style="width:100%">
+                   					<f:selectItem itemLabel="" itemValue=""/>
+                       				<f:selectItem itemLabel="Согласование" itemValue="Согласование"/>
+                       				<f:selectItem itemLabel="Подписание" itemValue="Подписание"/>
+                       				<f:selectItem itemLabel="Получатель" itemValue="Получатель"/>
+                   				</h:selectOneMenu>
+               				</f:facet>
+           				</p:cellEditor>
+        			</p:column>
+        			
+            	</p:dataTable>
+            	<p:commandButton value="Просмотреть" actionListener="#{mainMB.addUsers}" onclick="PF('dlg2').show();" update="panelDlg" style="margin-top: 5px" icon="fa fa-align-justify"/>
+			</p:panel>
+		</p:tab>
+		<p:tab id="confirm" title="Подтверждение" titleStyleClass="styleTitleWiz">
+            <p:panel header="Подтверждение для отправки">
+            	<h:panelGrid columns="2">
+            		<!-- <h:outputText value="Исполнитель:"/>
+            		<p:outputLabel value="#{mainMB.userService.user.fullName} #{mainMB.userService.user.surname}" style="min-width: 350px;max-width: 350px;"/> -->
+            		
+            		<!-- <h:outputText value="Телефон исполнителя:"/>
+            		<p:outputLabel value="#{mainMB.userService.user.nPhone}" style="min-width: 200px;max-width: 200px;"/> -->
+            		
+            		<h:outputText value="Имя документа:" style="width: 120px;"/>
+            		<p:inputText value="#{mainMB.newDoc.nameDoc}" style="min-width: 350px;max-width: 350px;" maxlength="50"/>
+            		
+            		<h:outputText value="Регистрационный номер:" style="width: 120px;"/>
+            		<p:inputText value="#{mainMB.newDoc.regNumber}" style="min-width: 350px;max-width: 350px;" maxlength="20"/>
+            		
+            		<h:outputText value="Проект:" style="width: 120px;"/>
+            		<p:selectOneMenu value="#{mainMB.newDoc.idProject}" style="min-width: 120px;max-width: 120px;">
+            			<f:selectItem itemLabel="Укажите проект" itemValue="" />
+            			<f:selectItems value="#{userMB.user.listUserProject}" var="usr" itemLabel="#{usr.mnkdProj}" itemValue="#{usr.idProject}"/>
+        			</p:selectOneMenu>
+            		
+            		<!-- h:outputText value="Дата и время  документа:" style="width: 120px;"/>
+            		<p:calendar id="datetime" value="#{mainMB.newDoc.dateDoc}"
+						pattern="dd.MM.yyyy HH:mm" lang="ru" locale="ru" mask="true" /> -->
+						
+            	</h:panelGrid>
+            	<h:panelGrid columns="2" style="margin-top: 5px;">
+            		<h:outputText value="Краткое содержание:" style="width: 118px;"/>
+            		<p:inputTextarea styleClass="textareaStyle" value="#{mainMB.newDoc.shortText}" maxlength="157"/>
+            	</h:panelGrid>
+            		<p:panel style="margin-top: 5px;">
+            			<f:facet name="header">
+            				Получатели
+            			</f:facet>
+            			 <p:commandButton value="Просмотреть" actionListener="#{mainMB.addUsers}" onclick="PF('dlg2').show();" update="panelDlg table" icon="fa fa-align-justify"/>
+            		</p:panel>
+            		<p:panel columns="2" style="margin-top: 5px;">
+            			<p:commandButton value="Сохранить" actionListener="#{mainMB.saveDoc}" style="margin-right: 5px;" icon="ui-icon-disk" />
+            			<p:commandButton value="Отправить" actionListener="#{mainMB.send}" icon="fa fa-paper-plane"/>
+            		</p:panel>
+            </p:panel>
+    	</p:tab>
+    	
+	</p:wizard>
+	<p:dialog header="Для изменения порядка перетащите строку с пользователем в нужную позицию" widgetVar="dlg2" showEffect="explode" hideEffect="bounce" 
+		closable="false" modal="false" stateful="false" resizable="false" style="max-height: 550px;min-height: 550px;">
+		<h:panelGrid id="panelDlg" columns="1">
+		
+    	  <p:dataTable id="draggableTable" var="usr" value="#{mainMB.listAddUser}" draggableRows="true" selection="#{mainMB.removeUser}" selectionMode="single"
+			 rowKey="#{usr.userId}" emptyMessage="Пользователи не найдены" style="max-width: 578px;max-height: 450px;min-height: 450px;">
+			<f:facet name="header">
+        		Список всех пользователей
+        	</f:facet>      			
+       				<p:column headerText="Пользователь">
+       					<h:panelGrid columns="1">
+        					<h:outputText value="#{usr.fullName} #{usr.surname}. Должность: #{usr.position} Отдел: #{usr.department}. Тел: #{usr.nPhone}" />
+        						<h:outputText id="sign" value="Отправить на: #{usr.sign}" style="font-weight: bold;color: limegreen;"/>
+        				</h:panelGrid>
+        			</p:column>
+        </p:dataTable> 
+        <!-- <p:contextMenu for="draggableTable" widgetVar="cMenu">   
+       		<p:menuitem value="Удалить пользователя" actionListener="#{mainMB.removeUser}" update="draggableTable tabUser table" icon="fa fa-trash"/>  
+   		</p:contextMenu> -->
+    		<p:commandButton value="Готово" type="button" onclick="PF('dlg2').hide();" update="draggableTable tabUser table" icon="fa fa-check" /> 
+    	</h:panelGrid>
+	</p:dialog>
+	<!-- <p:dialog header="Для изменения порядка перетащите строку с пользователем в нужную позицию" widgetVar="dlg3" showEffect="explode" hideEffect="bounce" 
+		closable="false" modal="false" stateful="false" resizable="false" style="max-height: 550px;min-height: 550px;">
+		<h:panelGrid id="panelDlg3" columns="1">
+		
+    	  <p:dataTable id="draggableTable" var="usr" value="#{mainMB.listAddUser}" draggableRows="true" selection="#{mainMB.removeUser}" selectionMode="single"
+			 rowKey="#{usr.userId}" emptyMessage="Пользователи не найдены" style="max-width: 578px;max-height: 450px;min-height: 450px;">
+			<f:facet name="header">
+        		Список всех пользователей
+        	</f:facet>      			
+       				<p:column headerText="Пользователь">
+       					<h:panelGrid columns="1">
+        					<h:outputText value="#{usr.fullName} #{usr.surname}. Должность: #{usr.position}. Отдел: #{usr.department}. Тел: #{usr.nPhone}" />
+        						<h:outputText id="sign" value="Отправить на: #{usr.sign}" style="font-weight: bold;color: limegreen;"/>
+        				</h:panelGrid>
+        			</p:column>
+        </p:dataTable> 
+        <p:contextMenu for="draggableTable" widgetVar="cMenu">   
+       		<p:menuitem value="Удалить пользователя" actionListener="#{mainMB.removeUser}" update="draggableTable tabUser table" icon="fa fa-trash"/>  
+   		</p:contextMenu>
+    		<p:commandButton value="Готово" type="button" onclick="PF('dlg3').hide();" update="draggableTable tabUser table" icon="fa fa-check" /> 
+    	</h:panelGrid>
+	</p:dialog> -->
+	<p:commandButton value="Далее" onclick="PF('wiz').next();" style="float: right;" icon="fa fa-long-arrow-right"/>
+	<p:commandButton value="Назад" onclick="PF('wiz').back();" style="float: left;"  icon="fa fa-long-arrow-left"/>
+	
+	</h:form>
+	</ui:define>
+</ui:composition>

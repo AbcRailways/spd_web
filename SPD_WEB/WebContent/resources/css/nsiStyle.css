@@ -1,0 +1,86 @@
+@CHARSET "UTF-8";
+
+.logo{
+	
+	font-size: 35px;
+	text-align: center;
+	margin-bottom: 25px;
+	font-weight: 300;
+	color: #444;
+}
+
+.img-circle {
+	border-radius: 50%;
+	margin-top: 250px;
+}
+
+.ui-selectonemenu label.ui-selectonemenu-label{
+	font-weight: bold;
+	margin-right: 47px;
+}
+
+.ui-datatable table {
+	border-collapse: collapse;
+	/* min-width: 930px;
+	max-width: 930px; */
+	width:100%;
+	/* max-height: 830px;
+	min-height: 830px; */
+	table-layout: auto;
+}
+
+.ui-datatable .ui-datatable-header, .ui-datatable .ui-datatable-footer{/*текст заголовка таблицы*/
+	text-align: left;
+	height: 26px;
+	padding: 8px;
+}
+
+.ui-datatable-tablewrapper {/*шрифт текста таблицы*/
+    font-size: 13px;
+}
+
+#header {
+	margin-bottom: 5px;
+    margin-left: 1px;
+    margin-top: 2px;
+}
+
+.ui-autocomplete-panel .ui-autocomplete-list {
+    height: 309px;
+}
+
+.selectMenu {/*grpups*/
+	min-width: 150px !important;
+}
+
+.selectMenuUsers {/*Users*/
+	min-width: 227px !important;
+	max-width: 227px !important;
+	font-weight: normal !important;
+}
+.linkStyle {
+	/* width: 50%;
+    display: inline-block; */
+    float: left;
+    padding: 3px 0px;
+   /*  text-decoration: none;
+    color: #659eb3; */
+    /* cursor: pointer;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    
+    font-size: 14px; */
+   
+}
+A.linkStyle:hover {
+    text-decoration: none; /* Убираем подчеркивание */
+    color: #fff; /* Цвет ссылки при наведении на нее курсора мыши */  
+    background: #659eb3; /* Цвет фона */
+    -webkit-border-radius: 7px;
+     border: 1px solid #ccc;
+}
+/* .textHeader {
+	max-width: 47em;
+	float: left;
+}   */
+

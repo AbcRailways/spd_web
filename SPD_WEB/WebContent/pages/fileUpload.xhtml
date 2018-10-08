@@ -1,0 +1,27 @@
+<ui:composition template="/WEB-INF/templates/template.xhtml"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+	<ui:define name="content">
+	<h:form id="formUpload">
+		
+		<h:panelGrid id="fileUploadPnl" columns="1" cellpadding="5">
+				<p:fileUpload id="fileUpload" fileUploadListener="#{fileUploadMB.fileUpload}" mode="advanced" dragDropSupport="false"
+           		 	sizeLimit="50000000" fileLimit="1" allowTypes="/(\.|\/)(pdf)$/" 
+           		 	fileLimitMessage="Вы можете загрузить только один файл!" invalidFileMessage="Неверный формат файла!" 
+           		 	invalidSizeMessage="Превышен максимальный размер файла!" cancelLabel="Отменить" uploadLabel="Загрузить" label="Выберите файл" />
+           		 
+           		<p:selectOneMenu id="project" value="#{fileUploadMB.idProject}" style="width:86%">
+           			<p:ajax listener="#{fileUploadMB.checkIdProject}"/>
+            		<f:selectItem itemLabel="Укажите проект" itemValue="" />
+            		<f:selectItems value="#{fileUploadMB.userService.user.listUserProject}" var="usr" itemLabel="#{usr.mnkdProj}" itemValue="#{usr.idProject}"/>
+        		</p:selectOneMenu>	
+           		 
+        </h:panelGrid>	
+		
+	</h:form>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+  <script type="text/javascript" src="/spd_web/resources/js/ckeditor/ckeditor.js" /> 
+</h:head>
+<h:body>
+	<h:outputStylesheet library='css' name='main.css' />
+<h:form id="ckEditorForm">
+	<p:growl id="growl" showDetail="true" showSummary="true" autoUpdate="true"/>
+    <h:inputHidden required="false" value="#{newDocMB.newDoc.textDoc}" id="editorValue" />
+    <h:panelGrid columns="1">
+    <textarea id="editor1" name="editor1" onblur="#{newDocMB.newDoc.textDoc} = this.value">
+        <h:outputText value="#{newDocMB.newDoc.textDoc}" />
+    </textarea>
+    <script type="text/javascript">
+        CKEDITOR.replace('editor1', {
+        	skin : "office2013",
+       
+        	toolbarGroups: [
+        	         		{ "name": "document", "groups": [ "mode", "document", "doctools" ] },
+        	         		{ "name": "clipboard", "groups": [ "clipboard", "undo" ] },
+        	         		{ "name": "editing", "groups": [ "find", "selection", "spellchecker", "editing" ] },
+        	         		{ "name": "forms", "groups": [ "forms" ] },        	         		
+        	         		{ "name": "basicstyles", "groups": [ "basicstyles", "cleanup" ] },
+        	         		{ "name": "paragraph", "groups": [ "list", "indent", "blocks", "align", "bidi", "paragraph" ] },
+        	         		{ "name": "links", "groups": [ "links" ] },
+        	         		{ "name": "insert", "groups": [ "insert" ] },        	         		
+        	         		{ "name": "styles", "groups": [ "styles" ] },
+        	         		{ "name": "colors", "groups": [ "colors" ] },
+        	         		{ "name": "tools", "groups": [ "tools" ] },
+        	         		{ "name": "others", "groups": [ "others" ] },
+        	         		{ "name": "about", "groups": [ "about" ] }
+        	         	],
+        	         	removeButtons : 'Save,NewPage,PasteText,PasteFromWord,Scayt,HiddenField,ImageButton,Button,Select,Textarea,TextField,Radio,Checkbox,Form,CopyFormatting,RemoveFormat,Blockquote,CreateDiv,Language,Anchor,Flash,Smiley,Iframe,ShowBlocks,About'
+            });
+        
+
+    </script> 
+		<h:panelGrid columns="2" cellpadding="5" cellspacing="5">
+    		<p:commandButton value="Готово" type="button" onclick="PF('dlg1').show();" icon="fa fa-check" />
+    		<p:commandButton value="Назад" actionListener="#{newDocMB.closeNewDocForm}" icon="fa fa-times-circle"/>
+    	</h:panelGrid>
+    </h:panelGrid>
+    
+    <p:dialog header="Подтверждение" widgetVar="dlg1" showEffect="explode" hideEffect="bounce" 
+		closable="true" modal="false" stateful="false" resizable="false" style="max-height: 255px;min-height: 255px;">
+		<h:panelGrid id="panelDlg" columns="1" cellpadding="5">
+			<f:facet name="header">
+				Документ будет сохранен во вкладке "Неотработанные"
+			</f:facet>
+			
+			<h:outputText value="Имя документа:" style="width: 120px;"/>
+            <p:inputText value="#{newDocMB.newDoc.nameDoc}" style="min-width: 350px;max-width: 350px;" maxlength="50"/>
+            
+            <!-- <h:outputText value="Регистрационный номер:" style="width: 120px;"/>
+            <p:inputText value="#{newDocMB.newDoc.regNumber}" style="min-width: 350px;max-width: 350px;" maxlength="20"/> -->
+            		
+            <h:outputText value="Проект:" style="width: 120px;"/>
+            <p:selectOneMenu value="#{newDocMB.newDoc.idProject}" style="min-width: 120px;max-width: 120px;">
+            	<f:selectItem itemLabel="Укажите проект" itemValue="" />
+            	<f:selectItems value="#{userMB.user.listUserProject}" var="usr" itemLabel="#{usr.mnkdProj}" itemValue="#{usr.idProject}"/>
+        	</p:selectOneMenu>
+			
+			<h:panelGrid columns="2" cellpadding="5">
+    			<p:commandButton value="Сохранить" onclick="document.getElementById('ckEditorForm:editorValue').value = CKEDITOR.instances.editor1.getData();" action="#{newDocMB.saveDoc()}" icon="ui-icon-disk" />
+    			<p:commandButton value="Сохранить и отправить" onclick="document.getElementById('ckEditorForm:editorValue').value = CKEDITOR.instances.editor1.getData();" action="#{newDocMB.saveAndSendDoc()}" icon="fa fa-paper-plane"  />
+    		</h:panelGrid>
+    	</h:panelGrid>
+	</p:dialog>        
+    
+</h:form>
+	
+	<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+
+	<p:dialog widgetVar="statusDialog" draggable="false" closable="false" resizable="false" showHeader="false">
+		<p:graphicImage name="/images/ajax-loader.gif" />
+	</p:dialog>
+		
+</h:body>
+</html>

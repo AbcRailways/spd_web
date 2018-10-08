@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+  <h:head>
+    <title>Центр обмена цифровых документов</title>
+    <!-- Bootstrap 3.3.5 -->
+    <h:outputStylesheet library='css' name='login.css' />
+    <h:outputStylesheet library='css' name='bootstrap.min.css' />
+    <h:outputStylesheet library='css' name='AdminLTE.min.css' />
+    
+  </h:head>
+  <h:body class="hold-transition login-page">
+  
+<div class="login-box">
+      <div class="login-logo">
+      <h:graphicImage url="/resources/images/ktz.jpg" class="img-circle"/>
+      <br />
+        <a href="#"><b>Центр обмена цифровых документов</b></a>
+      </div><!-- /.login-logo -->
+      <div class="login-box-body">
+        <p class="login-box-msg">Введите данные, чтобы начать работу</p>
+        <form action="j_security_check" method="post">
+          <div class="form-group has-feedback">
+            <input type="text" class="form-control" placeholder="Логин" name="j_username" />
+            <span class="fa fa-user form-control-feedback"></span>
+          </div>
+          <div class="form-group has-feedback">
+            <input type="password" class="form-control" placeholder="Пароль" name="j_password" />
+            <span class="fa fa-lock form-control-feedback"></span>
+          </div>
+          <p class="login-box-msg" style="color:red;">Неверно введен логин или пароль</p>
+          <div class="row">
+            <div class="col-xs-8">
+              
+            </div><!-- /.col -->
+            <div class="col-xs-4">
+              <button type="submit" class="btn btn-primary btn-block btn-flat" style="border-radius: 18px;">Вход</button>
+            </div><!-- /.col -->
+          </div>
+        </form>
+        
+        <!-- <a href="#" class="text-center">Подать заявку на регистрацию</a> -->
+
+      </div><!-- /.login-box-body -->
+    </div><!-- /.login-box -->
+  </h:body>
+</html>

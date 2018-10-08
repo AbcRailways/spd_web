@@ -1,0 +1,108 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+	<h:form id="rightForm">
+		 <p:growl id="growl" showDetail="true" showSummary="true" autoUpdate="true"/>     
+<!-- <p:messages id="messages22" showDetail="true" autoUpdate="true" closable="true" /> -->
+		<pe:timer timeout="30" singleRun="false" listener="#{userMB.checkNewMessage}" visible="false" update="menuDocs"/>
+		<!-- <p:commandButton value="Обновить" actionListener="#{userMB.refreshMenu}" update="menuDocs" style="width: 99%;height: 33px;margin-bottom: 5px;" icon="fa fa-refresh"/> -->
+		<!-- <p:commandButton value="Обновить1" actionListener="#{userMB.showMessg}" update="growl" style="width: 99%;height: 33px;margin-bottom: 5px;" icon="fa fa-refresh"/> -->
+		<p:accordionPanel id="menuDocs">
+			<p:tab title="Мои">
+				<p:dataTable id="mainTable" var="usr" value="#{userMB.user.mainListDoc}" sortBy="#{usr.mnkdProj}" expandableRowGroups="true"
+					selectionMode="single" selection="#{userMB.selectedMain}" rowKey="#{usr.nameDoc}"  scrollable="true" scrollHeight="500" style="font-size: 11px;"
+					 emptyMessage="Документы не найдены" >
+					 <p:ajax event="rowSelect" listener="#{userMB.onRowSelectMain}"/>
+        			<p:headerRow>
+            			<p:column colspan="2" >
+                			<h:outputText value="#{usr.mnkdProj}" />
+            			</p:column>
+        			</p:headerRow>
+        			
+        			<p:column>
+        				<h:panelGrid columns="1">
+        					<h:outputText value="#{usr.nameDoc}" style="font-weight: bold;"/>
+        					<h:outputText value="Дата созд: #{usr.dtCreate}" style="font-weight: bold;">
+            					<f:convertDateTime pattern="dd.MM.yyyy HH:mm" />        
+            				</h:outputText>
+        				</h:panelGrid>
+        			</p:column>
+
+				</p:dataTable> 	
+				
+			</p:tab>
+			
+			<p:tab title="#{userMB.text}" >
+				<p:dataTable id="incomingTable" var="usr" value="#{userMB.user.listIncoming}" sortBy="#{usr.mnkdProj}" expandableRowGroups="true"
+					selectionMode="single" selection="#{userMB.selectedIncoming}" rowKey="#{usr.nameDoc}" scrollable="true" scrollHeight="500" style="font-size: 11px;"
+					 emptyMessage="Документы не найдены">
+					 <p:ajax event="rowSelect" listener="#{userMB.onRowSelectIncoming}"/>
+        			<p:headerRow>
+            			<p:column colspan="2" >
+                			<h:outputText value="#{usr.mnkdProj}" />
+            			</p:column>
+        			</p:headerRow>
+        			        			
+        			<p:column>
+        				<h:panelGrid columns="1">
+        					<h:outputText value="#{usr.nameDoc}" styleClass="colorDocRed" rendered="#{usr.readDoc == 0 ? true : false}"/>
+        					<h:outputText value="#{usr.nameDoc}" styleClass="colorDocGreen" rendered="#{usr.readDoc == 1 ? true : false}"/>
+        					<h:outputText value="Дата отпр: #{usr.dtSend}">
+            					<f:convertDateTime pattern="dd.MM.yyyy HH:mm" />        
+            				</h:outputText>
+            				<h:outputText value="От: #{usr.fullName} #{usr.surname}" />
+        				</h:panelGrid>
+        			</p:column>
+
+				</p:dataTable> 
+				
+			</p:tab>
+			
+			<p:tab title="Отправленные">
+				<p:dataTable id="sendTable" var="usr" value="#{userMB.user.listSend}" sortBy="#{usr.mnkdProj}" expandableRowGroups="true"
+					selectionMode="single" selection="#{userMB.selectedSend}" rowKey="#{usr.nameDoc}" scrollable="true" scrollHeight="500" style="font-size: 11px;"
+					 emptyMessage="Документы не найдены" >
+					 <p:ajax event="rowSelect" listener="#{userMB.onRowSelectSend}" />
+        			<p:headerRow>
+            			<p:column colspan="2" >
+                			<h:outputText value="#{usr.mnkdProj}" />
+            			</p:column>
+        			</p:headerRow>
+        			
+        			<p:column>
+        				<h:panelGrid columns="1">
+        					<h:outputText value="#{usr.nameDoc}" style="font-weight: bold;"/>
+        					<h:outputText value="Дата отпр: #{usr.dtSend}" style="font-weight: bold;">
+            					<f:convertDateTime pattern="dd.MM.yyyy HH:mm" />        
+            				</h:outputText>
+        				</h:panelGrid>
+        			</p:column>
+
+				</p:dataTable> 
+				
+			</p:tab>
+			
+		</p:accordionPanel>
+		
+		<!-- <p:contextMenu for=":rightForm:menuDocs:mainTable" widgetVar="cMenu1">   
+       				<p:menuitem value="Подробнее" action="#{userMB.moreInfo()}" icon="fa fa-list"/>  
+       				
+   				</p:contextMenu>
+		
+    	<p:contextMenu for=":rightForm:menuDocs:incomingTable" widgetVar="cMenu2">   
+       				<p:menuitem value="Подробнее" action="#{userMB.moreInfo()}" icon="fa fa-list"/>
+       				<p:menuitem value="Подробнее132313" icon="fa fa-list"/>
+   				</p:contextMenu>
+   				
+   		<p:contextMenu for=":rightForm:menuDocs:sendTable" widgetVar="cMenu3">   
+       				<p:menuitem value="Подробнее" action="#{userMB.moreInfo()}" icon="fa fa-list"/>
+       				
+   				</p:contextMenu> -->
+   		
+	</h:form>
+
+</ui:composition>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html    
+    xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+		
+<h:head>
+	<title></title>
+</h:head>
+
+<h:body>
+<h:outputStylesheet library='css' name='main.css' />
+<h:outputStylesheet library='css' name='content.css' />
+	<h:form id="sendForm">
+	<p:growl id="growl" showDetail="true" showSummary="true" autoUpdate="true"/>
+		
+		<p:panelGrid id="sendPanelGrid" columns="1" style="width: 100%;">
+			
+			<h:panelGrid columns="4" cellpadding="5" cellspacing="5">
+			
+				<h:outputLabel for="regN" value="Регистрационный номер:"/>
+				<p:inputText id="regN" value="#{sendMB.selectedDoc.regNumber}" disabled="true" />
+				
+				<h:outputLabel for="nameIspol" value="Исполнитель:"/>
+				<p:inputText id="nameIspol" value="#{sendMB.userService.name}" disabled="true" />
+				
+				<h:outputLabel for="positionIspol" value="Должность исполнителя:"/>
+				<p:inputText id="positionIspol" value="#{sendMB.userService.user.position}" disabled="true" />
+				
+				<h:outputLabel for="dateIspol" value="Дата исполнения:"/>
+				<p:calendar id="dateIspol" value="#{sendMB.dateIspoln}" pattern="dd.MM.yyyy" required="true" lang="ru" locale="ru" mask="true" />
+				
+				<h:outputLabel for="phoneIspol" value="Телефон исполнителя:"/>
+				<p:inputText id="phoneIspol" value="#{sendMB.userService.user.nPhone}" disabled="true" />
+				
+				
+			</h:panelGrid>
+			
+			 <h:panelGrid columns="3" cellpadding="5" cellspacing="5">
+				
+				<p:outputLabel for="addUsrBtn" value="Кем согласовано: " />
+				<p:commandButton id="addUsrBtn" value="Добавить пользователей" actionListener="#{sendMB.addUsrSogl}" />
+				
+				<p:selectOneMenu id="viewList" style="width:86%;min-width:86%;">
+            		<f:selectItem itemLabel="Список пользователей" itemValue="" />
+            		<f:selectItems value="#{sendMB.listViewUserSogl}" var="usr" itemLabel="#{usr.fullName} #{usr.surname}"/>
+        		</p:selectOneMenu>
+				
+			</h:panelGrid>
+			
+			<h:panelGrid columns="1" cellpadding="5" cellspacing="5">
+				
+				<h:panelGrid id="signPnlGrid" columns="4" cellpadding="5" cellspacing="5">
+					<p:outputLabel for="usrSignFullname" value="Кем подписано: " />
+					<p:inputText id="usrSignFullname" value="#{sendMB.fullName}" disabled="true" />
+					
+					<p:outputLabel for="usrSignPosition" value="Должность подписавшего:" />
+					<p:inputText id="usrSignPosition" value="#{sendMB.position}" disabled="true" />
+
+				</h:panelGrid>
+				<p:commandButton value="Добавить пользователя" actionListener="#{sendMB.addUsrSign}" />
+			</h:panelGrid>
+			
+			<h:panelGrid columns="3" cellpadding="5" cellspacing="5">
+				<p:outputLabel for="addPoluchBtn" value="Получатели: " />
+				<p:commandButton id="addPoluchBtn" value="Добавить пользователей" actionListener="#{sendMB.addUsrPoluch}" />
+				<p:selectOneMenu id="viewList1" style="width:86%;min-width:86%;">
+            		<f:selectItem itemLabel="Список пользователей" itemValue="" />
+            		<f:selectItems value="#{sendMB.listViewUserPoluch}" var="usr" itemLabel="#{usr.fullName} #{usr.surname}"/>
+        		</p:selectOneMenu>
+			</h:panelGrid>
+			
+			<h:panelGrid columns="4" cellpadding="5" cellspacing="5">
+				<h:outputLabel for="nameDoc" value="Имя документа:"/>
+				<p:inputText id="nameDoc" value="#{sendMB.selectedDoc.nameDoc}" disabled="true" />
+				
+				<h:outputLabel for="project" value="Проект:"/>
+				<p:inputText id="project" value="#{sendMB.selectedDoc.idProject}" disabled="true" />
+				
+				<h:outputLabel for="themeDoc" value="Тема документа:"/>
+				<p:selectOneMenu id="themeDoc" value="#{sendMB.themeId}" style="width:86%">
+            		<f:selectItem itemLabel="Укажите тему документа" itemValue="" />
+            		<f:selectItems value="#{sendMB.listThemeDoc}" var="ls" itemLabel="#{ls.typeOrThemeDoc}" itemValue="#{ls.id}"/>
+        		</p:selectOneMenu>
+				
+				<h:outputLabel for="typeDoc" value="Тип документа:"/>
+				<p:selectOneMenu id="typeDoc" value="#{sendMB.typeId}" style="width:86%">
+            		<f:selectItem itemLabel="Укажите тип документа" itemValue="" />
+            		<f:selectItems value="#{sendMB.listTypeDoc}" var="ls" itemLabel="#{ls.typeOrThemeDoc}" itemValue="#{ls.id}"/>
+        		</p:selectOneMenu>
+												
+			</h:panelGrid>
+			
+			<h:panelGrid columns="1" cellpadding="5">
+				<h:outputLabel for="shortText" value="Краткое содержание:"/>
+				<p:inputTextarea id="shortText" styleClass="textareaStyle" value="#{sendMB.selectedDoc.shortText}" maxlength="157"/>
+			</h:panelGrid>
+			
+			<h:panelGrid columns="2" cellpadding="5">				
+				<p:commandButton value="Просмотреть" actionListener="#{userMB.showModalDlgPdf}" style="margin-right: 5px;" icon="fa fa-file-pdf-o" />				
+				<p:commandButton value="Отправить" actionListener="#{sendMB.sendDoc}" style="margin-right: 5px;" icon="fa fa-paper-plane"/>				
+			</h:panelGrid>
+			
+		</p:panelGrid>
+		
+		<p:dialog header="Адресная книга" widgetVar="dlg1" showEffect="explode" hideEffect="bounce" 
+			closable="true" modal="false" stateful="false" resizable="false" style="min-width: 730px;max-width: 730px;">
+		<h:form id="dlgForm">
+			<h:panelGrid id="searchPnlGrid" columns="1" cellpadding="5">
+				
+				<p:panel>
+				<h:panelGrid columns="1" cellpadding="5">
+					<h:panelGrid columns="3" cellpadding="5">
+						
+						 <h:panelGrid columns="2" cellpadding="5">
+        					<p:outputLabel for="searchOneRadio" value="Поиск:" />
+        					<p:selectOneRadio id="searchOneRadio" value="#{sendMB.searchOneRadio}">
+            					<f:selectItem itemLabel="Имя" itemValue="name" />
+            					<f:selectItem itemLabel="Фамилия" itemValue="surname" />
+        					</p:selectOneRadio>
+        				</h:panelGrid> 
+        				
+        				 <h:panelGrid columns="2" cellpadding="5">
+        					<p:inputText id="searchInptTxt" value="#{sendMB.searchInputTxt}" style="min-width: 167px;max-width: 167px;"/>
+        					<p:commandButton value="Найти" actionListener="#{sendMB.searchUser}" update="searchDataTbl" icon="fa fa-search"/>
+        				 </h:panelGrid>
+        				        				        				
+    				</h:panelGrid>
+    				
+    				<h:panelGrid columns="2" cellpadding="5" rendered="#{sendMB.usrSign == false and sendMB.poluchateli == false ? true : false}">
+        				<p:outputLabel for="tipOtprDoc" value="Тип отправки документа для согласования:" />
+        				<p:selectOneRadio id="tipOtprDoc" value="#{sendMB.tipOtprDoc}" >
+            				<f:selectItem itemLabel="Последовательный" itemValue="1" />
+            				<f:selectItem itemLabel="Паралельный" itemValue="2" />
+            				<p:ajax update="panelGidUsr" />
+        				</p:selectOneRadio>
+        			</h:panelGrid>
+        			
+    			</h:panelGrid>
+    			</p:panel>
+    			
+    			<p:panelGrid columns="1" cellpadding="5">
+    			
+    				<p:dataTable id="searchDataTbl" var="usr" value="#{sendMB.listSearchUser}" rows="3" paginator="true"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="3,5" selection="#{sendMB.selectedSearchUser}" selectionMode="single" rowKey="#{usr.userId}" 
+                         emptyMessage="Введите ключевые слова для поиска и нажмите кнопку 'Найти', чтобы выполнить поиск." >
+    					
+    					<p:ajax event="rowDblselect" listener="#{sendMB.dblClick}" update="searchDataTbl" global="false" />
+    					
+    					<p:column headerText="Пользователь" style="width: 20%;max-width: 20%;" >
+        					<h:outputText value="#{usr.fullName} #{usr.surname}" />
+        				</p:column>
+        					
+        				<p:column headerText="Должность" style="width: 25%;max-width: 25%;" >
+        					<h:outputText value="#{usr.position}" />
+        				</p:column>
+        			
+        				<p:column headerText="Отдел" style="width: 11%;max-width: 11%;" >
+        					<h:outputText value="#{usr.department}" />
+        				</p:column>
+        				
+        				<p:column headerText="Телефон" style="width: 11%;max-width: 11%;" >
+        					<h:outputText value="#{usr.nPhone}" />
+        				</p:column>
+        				
+    				</p:dataTable>
+    				
+    			</p:panelGrid>
+    			
+    			<p:panelGrid id="panelGidUsr" columns="1" cellpadding="5">
+    				
+    				<p:dataTable id="dataTbl" var="usr" value="#{sendMB.usrSign == false ? sendMB.listSoglUser : sendMB.signUsr}" selection="#{sendMB.selectedUsr}" 
+    					selectionMode="single" rowKey="#{usr.userId}" emptyMessage="" rendered="#{sendMB.poluchateli == false ? true : false}" scrollable="true" scrollHeight="150" draggableRows="true" style="max-height: 190px;">    					
+    					<p:ajax event="rowSelect" listener="#{sendMB.onRowSelectUser}" />
+    					
+    					<p:column style="width: 70%;max-width: 70%;" >
+        					<h:outputText value="#{usr.fullName} #{usr.surname}" />
+        				</p:column>
+        				
+        				<p:column style="width: 30%;max-width: 30%;" >
+        					<p:selectBooleanCheckbox value="#{usr.sogl}" disabled="#{sendMB.tipOtprDoc == 1 ? true : false}" 
+        						rendered="#{sendMB.usrSign == false and sendMB.poluchateli == false ? true : false}">
+        						<p:ajax listener="#{sendMB.viewMessage}" />
+        					</p:selectBooleanCheckbox>
+        				</p:column>
+        				<f:facet name="footer">
+        					<p:commandButton value="Удалить пользователя" actionListener="#{sendMB.removeUser(true)}" icon="fa fa-trash" 
+        					rendered="#{sendMB.usrSign == false ? true : false}"/>
+        				</f:facet>
+    				</p:dataTable>
+    				
+    				<p:dataTable id="dataTbl1" var="usr" value="#{sendMB.listPoluch}" selection="#{sendMB.selectedUsr}" 
+    					selectionMode="single" rowKey="#{usr.userId}" emptyMessage="" rendered="#{sendMB.poluchateli == true ? true : false}" scrollable="true" scrollHeight="150" style="max-height: 190px;">    					
+    					<p:ajax event="rowSelect" listener="#{sendMB.onRowSelectUser}" />
+    					
+    					<p:column style="width: 100%;max-width: 100%;" >
+        					<h:outputText value="#{usr.fullName} #{usr.surname}" />
+        				</p:column>
+        				<f:facet name="footer">
+        					<p:commandButton value="Удалить пользователя" actionListener="#{sendMB.removeUser(false)}" icon="fa fa-trash" 
+        					rendered="#{sendMB.usrSign == false ? true : false}"/>
+        				</f:facet>
+    				</p:dataTable>
+    				
+    			</p:panelGrid>
+    			
+    			<p:separator/>
+    			<p:commandButton value="Готово" actionListener="#{sendMB.exitDlg}" icon="fa fa-check" />
+    		</h:panelGrid>
+    	</h:form>
+		</p:dialog>
+		
+	</h:form>
+</h:body>
+</html>

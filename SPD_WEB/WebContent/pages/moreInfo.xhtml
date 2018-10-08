@@ -1,0 +1,37 @@
+<ui:composition template="/WEB-INF/templates/template.xhtml"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+	<ui:define name="content">
+	<h:form id="formPDF1">
+	<!-- <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" /> -->
+		
+		<p:outputPanel deferred="true">
+        	<h3>Уважаемый пользователь #{userMB.name}</h3>
+        	<p>Проект #{userMB.selectedOther.mnkdProj} не прописан в настройка вашей учетной записи.</p>
+        	<p>Для решения проблемы обратитесь к администратору.</p>
+    	</p:outputPanel>
+		
+		<!-- <p:commandButton value="Просмотреть" actionListener="#{userMB.showModalDlgPdf}" style="margin-right: 5px;" icon="fa fa-file-pdf-o" update=":formPDF1:formPdf:pnlPdf"/>
+		<p:commandButton value="Подписать" actionListener="#{mainMB.signDocs}" style="margin-right: 5px;" icon="fa fa-magic"/>
+		<p:commandButton value="Отправить" actionListener="#{userMB.redirectSendPages}" style="margin-right: 5px;" icon="fa fa-paper-plane"/>
+
+		<p:dialog widgetVar="dlgPDF" modal="false" closable="false" height="758px">
+			<h:form id="formPdf">
+				<h:panelGrid id="pnlPdf" columns="1" cellpadding="5">
+					<p:media id="mediaPdf" value="#{userMB.streamedContent}" player="pdf" width="900px" height="700px">  
+           				<f:param name="id" value="#{userMB.generateRandomIdForNotCaching()}" />
+           			</p:media>
+           			
+					<p:commandButton value="Выход" actionListener="#{userMB.closeModalDlgPdf}"/>
+				</h:panelGrid>
+			</h:form>
+		</p:dialog> -->
+		
+	</h:form>
+
+	</ui:define>
+</ui:composition>
